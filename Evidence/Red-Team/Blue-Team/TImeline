@@ -1,0 +1,166 @@
+
+
+# ** Timeline of Events (Blue Team Reconstruction)**  
+*A chronological reconstruction of attacker activity based on PowerShell logs, Sysmon telemetry, and Windows Security events.*
+
+---
+
+## **T0 — Logging Configuration Active**
+- PowerShell Script Block Logging enabled  
+- PowerShell Module Logging enabled  
+- Group Policy updated successfully  
+- Logging baseline established  
+
+**Log Sources:** PowerShell Operational, Windows Event Logs  
+**Purpose:** Ensures full visibility before simulated attack begins.
+
+---
+
+## **T0 + 1 min — Suspicious PowerShell Execution Begins**
+- PowerShell launched with unusual command‑line parameters  
+- Execution pattern inconsistent with normal user behavior  
+
+**Log Source:** Sysmon Event ID 1 (Process Creation)  
+**Key Evidence:**  
+- Parent process: `explorer.exe` or unexpected parent  
+- Command line includes encoded or obfuscated content  
+
+---
+
+## **T0 + 2 min — Script Block Logging Captures Encoded Command**
+- PowerShell Script Block Logging records a block containing encoded or obfuscated content  
+- Activity resembles fileless execution techniques  
+
+**Log Source:** PowerShell Operational Log  
+**Key Evidence:**  
+- Event ID 4104 (Script Block Logging)  
+- Encoded command detected  
+
+---
+
+## **T0 + 5 min — Outbound Network Connection Initiated**
+- PowerShell initiates repeated outbound connections  
+- Behavior resembles command‑and‑control beaconing  
+
+**Log Source:** Sysmon Event ID 3 (Network Connection)  
+**Key Evidence:**  
+- Destination IP: **1.1.1.1** (used for simulation)  
+- Repeated connections at consistent intervals  
+
+---
+
+## **T0 + 10 min — Additional PowerShell Module Activity**
+- PowerShell loads modules not typically used by standard users  
+- Indicates reconnaissance or staging behavior  
+
+**Log Source:** PowerShell Operational Log  
+**Key Evidence:**  
+- Event ID 4103 (Module Logging)  
+
+---
+
+## **T0 + 15 min — Windows Security Log Confirms Process Creation**
+- Security Log Event ID 4688 confirms PowerShell process creation  
+- Provides user context and parent process verification  
+
+**Log Source:** Windows Security Log  
+**Key Evidence:**  
+- User account associated with execution  
+- Parent/child process chain  
+
+---
+
+## **T0 + 20–60 min — Continuous Beaconing**
+- PowerShell continues sending outbound traffic  
+- Pattern consistent with malware “calling home”  
+
+**Log Source:** Sysmon Event ID 3  
+**Key Evidence:**  
+- Repeated connections  
+- Same destination IP  
+- No legitimate justification  
+
+---
+
+## **T0 + 60 min — Termination of Activity**
+- PowerShell process terminates  
+- No further outbound connections observed  
+
+**Log Source:** Sysmon Event ID 5 (Process Termination)  
+**Key Evidence:**  
+- End of simulated C2 activity  
+
+---
+
+# ** Indicators of Compromise (IOCs)**  
+*Collected from your logs, screenshots, and simulated activity.*
+
+---
+
+## **1. Suspicious PowerShell Execution**
+**Type:** Behavioral IOC  
+**Evidence:**  
+- PowerShell launched with encoded or obfuscated parameters  
+- Unusual parent/child process chain  
+
+**Log Sources:**  
+- Sysmon Event ID 1  
+- Windows Security Log 4688  
+
+---
+
+## **2. Encoded PowerShell Script Block**
+**Type:** Script IOC  
+**Evidence:**  
+- Script Block Logging captured encoded command  
+- Event ID 4104 flagged suspicious content  
+
+**Log Source:** PowerShell Operational Log  
+
+---
+
+## **3. Unusual PowerShell Module Usage**
+**Type:** Behavioral IOC  
+**Evidence:**  
+- Modules loaded that are not typical for standard user activity  
+- Event ID 4103  
+
+**Log Source:** PowerShell Module Logging  
+
+---
+
+## **4. Outbound Network Connections (Simulated C2)**
+**Type:** Network IOC  
+**Evidence:**  
+- Repeated outbound connections to **1.1.1.1**  
+- Consistent timing pattern  
+- Initiated by PowerShell  
+
+**Log Source:** Sysmon Event ID 3  
+
+---
+
+## **5. Process Creation Anomalies**
+**Type:** Host IOC  
+**Evidence:**  
+- PowerShell spawned unexpectedly  
+- Parent process inconsistent with normal workflow  
+
+**Log Sources:**  
+- Sysmon Event ID 1  
+- Windows Security Log 4688  
+
+---
+
+## **6. Logging Configuration Changes (Baseline IOC)**
+**Type:** Configuration IOC  
+**Evidence:**  
+- Script Block Logging enabled  
+- Module Logging enabled  
+- Group Policy updated  
+
+**Log Source:** Windows Event Logs  
+
+*(In a real intrusion, attackers often **disable** logging — in your simulation, enabling logging is part of the setup.)*
+
+
