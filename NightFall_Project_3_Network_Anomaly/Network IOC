@@ -1,0 +1,24 @@
+PACKET TRAFFIC(WIRE SHARK)
+Destination IP: 1.1.1.1 (ICMP test traffic)
+Destination Domain: example.com (HTTP test traffic)
+Protocol: ICMP (Echo Request / Echo Reply)
+Protocol: HTTP (Unencrypted web request)
+NMAP RESULTS
+Port 80/tcp – HTTP service detected
+Port 443/tcp – HTTPS service detected
+Port 22/tcp – SSH service detected (if present)
+Port 3389/tcp – RDP service detected (if present)
+Port 445/tcp – SMB service detected (if present)
+Port 1900/udp – UPnP service detected
+Port 5353/udp – mDNS service detected
+
+BEHAVIORAL IOC'S
+Repeated ICMP echo requests to a single external IP
+Unencrypted HTTP requests leaving the host
+Unexpected open ports discovered during Nmap scan
+Services running that are not required for home network use
+
+RISK RELAVENT IOC
+Any open remote access ports (RDP, SSH)
+Any legacy or insecure services (Telnet, FTP, SMBv1)
+Any externally exposed ports not required for home use
