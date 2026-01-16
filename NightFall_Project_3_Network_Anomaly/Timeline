@@ -1,0 +1,14 @@
+10:00 – Investigation started. Prepared environment for packet capture.
+10:02 – Opened Command Prompt and initiated continuous ICMP traffic using: ping 1.1.1.1 -t
+10:03 – Opened second Command Prompt window and generated HTTP traffic using: curl http://example.com
+10:04 – Stopped ICMP traffic with Ctrl + C.
+10:05 – Launched Wireshark and began packet capture on primary network interface.
+10:06 – Observed ICMP and HTTP packets in real time.
+10:07 – Stopped capture and saved file as NightFall3_Network_Anomaly.pcapng.
+10:10 – Identified protocol differences using Wireshark filters (icmp, http).
+10:15 – Opened Command Prompt and ran Nmap basic scan against local host.
+10:17 – Executed Nmap script scan (-sC -sV) to enumerate services.
+10:20 – Ran optional Nmap vulnerability script (--script vuln).
+10:25 – Saved Nmap results to NightFall3_Nmap_Results.txt.
+10:30 – Analyzed open ports, services, and potential risks.
+10:35 – Compiled findings, IOCs, and MITRE mapping for case file.
