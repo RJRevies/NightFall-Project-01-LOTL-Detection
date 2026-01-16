@@ -1,0 +1,393 @@
+Absolutely — here is a **complete, dyslexia‑friendly, step‑by‑step, keystroke‑by‑keystroke instruction set** that **ANYONE** can follow alongside you to perform **NightFall Project #3**.
+
+This is written so a **beginner**, a **home user**, or a **new SOC analyst** can do it with zero confusion.
+
+No VM.  
+No external tools.  
+Only **Wireshark + Nmap + Windows**.
+
+This is the full workflow from start to finish.
+
+---
+
+ NIGHTFALL PROJECT #RECON SCANNING/PACKET TRAFFIC 
+## **FULL STEP‑BY‑STEP INSTRUCTIONS (FOR ANYONE TO FOLLOW WITH YOU)**  
+Wireshark + Nmap  
+No VM • No Linux • No Cloud • No Outside Tools
+
+---
+
+ PART 1 — Install the Tools
+
+## **1. Install Wireshark**
+1. Press **Windows key**  
+2. Type: `wireshark download`  
+3. Press **Enter**  
+4. Click the official Wireshark website  
+5. Download **Windows 64‑bit Installer**  
+6. Run installer  
+7. Click **Next** until finished  
+8. When asked about USBPcap → **UNCHECK** it  
+9. Finish installation
+
+---
+
+## **2. Install Nmap**
+1. Press **Windows key**  
+2. Type: `nmap download`  
+3. Press **Enter**  
+4. Click **nmap.org**  
+5. Download **nmap‑setup.exe**  
+6. Run installer  
+7. Keep all defaults  
+8. Finish installation
+
+---
+
+ PART 2 — Generate “Suspicious” Traffic
+
+This gives you real traffic to analyze.
+
+## **1. Open Command Prompt**
+1. Press **Windows key**  
+2. Type: `cmd`  
+3. Press **Enter**
+
+---
+
+## **2. Start continuous ICMP traffic**
+In Command Prompt, type:
+
+```
+ping 1.1.1.1 -t
+```
+
+Press **Enter**.
+
+Let it run for **10–15 seconds**.
+
+Do **not** stop it yet.
+
+---
+
+## **3. Open a second Command Prompt**
+1. Press **Windows key**  
+2. Type: `cmd`  
+3. Press **Enter**
+
+---
+
+## **4. Generate HTTP traffic**
+In the second Command Prompt, type:
+
+```
+curl http://example.com
+```
+
+Press **Enter**.
+
+Press **Up Arrow**  
+Press **Enter**  
+Repeat **2–3 times**.
+
+---
+
+## **5. Stop the ping**
+Go back to the first Command Prompt.
+
+Press:
+
+```
+Ctrl + C
+```
+
+Ping stops.
+
+---
+
+ PART 3 — Capture Traffic in Wireshark
+
+## **1. Open Wireshark**
+Double‑click the Wireshark icon.
+
+---
+
+## **2. Select your network interface**
+Click:
+
+- **Ethernet**  
+or  
+- **Wi‑Fi**
+
+(Whichever you use.)
+
+---
+
+## **3. Start capture**
+Press:
+
+```
+Ctrl + E
+```
+
+---
+
+## **4. Let it run**
+Capture for **20–30 seconds**.
+
+---
+
+## **5. Stop capture**
+Press:
+
+```
+Ctrl + E
+```
+
+---
+
+## **6. Save the capture**
+Press:
+
+```
+Ctrl + S
+```
+
+Name it:
+
+```
+NightFall3_Network_Anomaly.pcapng
+```
+
+Click **Save**.
+
+---
+
+ PART 4 — Analyze Traffic in Wireshark
+
+## **1. Filter ICMP**
+Click the filter bar.  
+Type:
+
+```
+icmp
+```
+
+Press **Enter**.
+
+Take a screenshot.
+
+---
+
+## **2. Filter HTTP**
+Click the filter bar.  
+Type:
+
+```
+http
+```
+
+Press **Enter**.
+
+Take a screenshot.
+
+---
+
+## **3. Inspect a packet**
+1. Click any packet  
+2. Middle pane → expand:  
+   - **Ethernet**  
+   - **Internet Protocol**  
+   - **TCP** (if HTTP)  
+   - **HTTP** (if HTTP)  
+
+Take a screenshot.
+
+---
+
+## **4. Write down observations**
+Examples:
+
+- Source IP  
+- Destination IP  
+- Protocol  
+- Packet size  
+- Timing  
+- Patterns  
+
+---
+
+ PART 5 — Scan Your Own Machine with Nmap
+
+## **1. Find your IP**
+Open Command Prompt.  
+Type:
+
+```
+ipconfig
+```
+
+Press **Enter**.
+
+Find:
+
+```
+IPv4 Address
+```
+
+Example: `192.168.1.23`
+
+---
+
+## **2. Run basic Nmap scan**
+Type:
+
+```
+nmap -sV 192.168.1.23
+```
+
+Press **Enter**.
+
+---
+
+## **3. Run script scan**
+Type:
+
+```
+nmap -sC -sV 192.168.1.23
+```
+
+Press **Enter**.
+
+---
+
+## **4. Optional: vulnerability script scan**
+Type:
+
+```
+nmap --script vuln 192.168.1.23
+```
+
+Press **Enter**.
+
+---
+
+## **5. Save results**
+1. Right‑click inside Command Prompt  
+2. Click **Mark**  
+3. Highlight everything  
+4. Press **Enter**  
+5. Open Notepad  
+6. Press **Ctrl + V**  
+7. Save as:
+
+```
+NightFall3_Nmap_Results.txt
+```
+
+---
+
+ PART 6 — Identify What Needs to Be Closed or Secured
+
+## **1. Ports that should NOT be open**
+- 23 (Telnet)  
+- 21 (FTP)  
+- 3389 (RDP)  
+- 445 (SMB)  
+- 135/139 (NetBIOS)
+
+If Nmap shows these → **close them immediately**.
+
+---
+
+## **2. Ports that should be reviewed**
+- 80 (HTTP)  
+- 443 (HTTPS)  
+- 22 (SSH)  
+- 53 (DNS external)
+
+These are not automatically bad — but must be intentional.
+
+---
+
+## **3. Normal home‑network ports**
+- 67/68 (DHCP)  
+- 53 (DNS local)  
+- 1900 (UPnP)  
+- 5353 (mDNS)
+
+---
+
+ PART 7 — MITRE ATT&CK Mapping (Simple)
+
+MITRE ATT&CK mapping = matching what you saw to known attacker behaviors.
+
+Relevant techniques:
+
+- **T1046 – Network Service Scanning**  
+- **T1071 – Application Layer Protocol**  
+- **T1595 – Active Scanning**
+
+---
+
+ PART 8 — Timeline (Copy/Paste)
+
+```
+10:00 – Investigation started.
+10:02 – ICMP traffic generated using ping.
+10:03 – HTTP traffic generated using curl.
+10:04 – Stopped ICMP traffic.
+10:05 – Started Wireshark capture.
+10:07 – Stopped capture and saved file.
+10:10 – Applied ICMP and HTTP filters.
+10:15 – Ran Nmap basic scan.
+10:17 – Ran Nmap script scan.
+10:20 – Ran Nmap vuln script.
+10:25 – Saved Nmap results.
+10:30 – Identified open ports and risks.
+10:35 – Compiled findings and IOCs.
+```
+
+---
+
+ PART 9 — IOCs (Copy/Paste)
+
+### **Network IOCs**
+```
+Destination IP: 1.1.1.1
+Domain: example.com
+Protocol: ICMP
+Protocol: HTTP
+```
+
+ **Port/Service IOCs**
+```
+Port 80 – HTTP
+Port 443 – HTTPS
+Port 22 – SSH (if present)
+Port 3389 – RDP (if present)
+Port 445 – SMB (if present)
+```
+
+### **Behavioral IOCs**
+```
+Repeated ICMP echo requests
+Unencrypted HTTP requests
+Unexpected open ports
+Unnecessary services running
+```
+
+---
+
+ PART 10 — !Kung Proverb (Tracking Theme)
+
+**“The tracker follows not the footprint, but the path the footprint belongs to.”**
+
+Meaning:  
+Packets are footprints.  
+Behavior is the path.  
+Defenders must track movement, not just events.
+
+---
+
+
