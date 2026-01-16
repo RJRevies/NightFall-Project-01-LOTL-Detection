@@ -52,9 +52,9 @@ Relevant techniques:
 •	T1595 – Active Scanning
 ________________________________________
 📝 Summary
-During this investigation, I simulated ICMP and HTTP traffic, captured the packets in Wireshark, and analyzed how each protocol behaves on the wire. I then used Nmap to scan my own system and identify open ports and services that could expose a home network to unnecessary risk. This project reinforced the importance of mastering fundamentals — packet structure, protocol behavior, and port awareness — before relying on automated tools. By combining packet analysis with host scanning, I built a clearer picture of how attackers probe networks and how defenders can detect them early.
+During this investigation, I simulated ICMP and HTTP traffic, captured the packets in Wireshark, and analyzed how each protocol behaves on the wire. I then used Nmap to scan my own system and identify open ports and services that could expose a home network to unnecessary risk. This project reinforced the importance of mastering fundamentals packet structure, protocol behavior, and port awareness before relying on automated tools. By combining packet analysis with host scanning, I built a clearer picture of how attackers probe networks and how defenders can detect them early.
 ________________________________________
 🏹 !Kung Proverb
 “The tracker follows not the footprint, but the path the footprint belongs to.”
 Meaning:
-A single packet or port doesn’t tell the whole story. True defenders follow the behavior, not just the event. Tracking is about understanding movement, intent, and patterns — the same skills required in threat hunting.
+A single packet or port doesn’t tell the whole story. True defenders follow the behavior, not just the event. Tracking is about understanding movement, intent, and patterns the same skills required in threat hunting.
