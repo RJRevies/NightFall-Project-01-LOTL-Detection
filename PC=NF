@@ -1,1 +1,107 @@
+🧩 Scenario Summary
+A SOC receives an alert:
+“Workstation in VLAN 10 is communicating with a host in VLAN 20.”
+This should be impossible under proper segmentation.
+Your mission is to:
+1.	Build the network
+2.	Trigger the anomaly
+3.	Collect evidence
+4.	Identify the root cause
+5.	Apply the fix
+6.	Document the investigation
+________________________________________
+1. Build the Mini Network (5 minutes)
+Topology
+•	1 × Cisco 2960 Switch
+•	2 × PCs 
+o	PC A (should be VLAN 10)
+o	PC B (should be VLAN 20)
+IP Addressing
+Device	VLAN	IP Address	Mask
+PC A	10	10.10.10.10	255.255.255.0
+PC B	20	10.20.20.20	255.255.255.0
+Switch Configuration
+vlan 10
+vlan 20
+
+interface fa0/1
+ switchport mode access
+ switchport access vlan 10
+
+interface fa0/2
+ switchport mode access
+ switchport access vlan 20
+At this point, the network is properly segmented.
+________________________________________
+2. Inject the Anomaly (The Twist)
+Packet Tracer PCs do not support manual ARP injection (arp -s), so we simulate the anomaly using a realistic misconfiguration.
+Misconfigure PC A’s port
+On the switch:
+interface fa0/1
+ switchport mode access
+ switchport access vlan 20
+Now PC A believes it’s in VLAN 10 (based on its IP), but the switch is treating it as VLAN 20.
+This creates the cross VLAN leak.
+________________________________________
+3. Trigger the Incident
+On PC A:
+ping 10.20.20.20
+Expected Result
+You receive successful replies.
+This is the “incident”:
+A host in VLAN 10 is communicating with VLAN 20.
+________________________________________
+4. Collect Evidence (Packet Tracer Friendly)
+Because some Packet Tracer builds do not support ARP table inspection, we rely on VLAN and MAC evidence.
+Run on the switch:
+show vlan brief
+show mac address-table
+What you’re looking for
+•	PC A’s MAC address appearing under VLAN 20
+•	PC A’s port listed under VLAN 20
+•	VLAN boundaries not matching expected design
+This is enough evidence to confirm the anomaly in Packet Tracer.
+________________________________________
+💡 Real World Commentary (for your portfolio)
+In a real SOC environment, you would also inspect:
+•	ARP tables
+•	Switchport security logs
+•	DHCP logs
+•	NAC (802.1X) authentication
+•	SIEM alerts
+•	NetFlow or packet captures
+Packet Tracer does not expose all these layers, so VLAN and MAC evidence is sufficient for simulation.
+This commentary shows recruiters you understand the difference between lab limitations and real enterprise operations.
+________________________________________
+5. Identify the Root Cause
+Your investigation should conclude:
+PC A was able to communicate with VLAN 20 because its switchport was misconfigured and assigned to VLAN 20 instead of VLAN 10.
+This is a classic segmentation failure.
+________________________________________
+6. Apply the Fix
+Correct the switchport:
+interface fa0/1
+ switchport mode access
+ switchport access vlan 10
+Verify:
+show vlan brief
+show mac address-table
+PC A should now appear under VLAN 10.
+________________________________________
+7. Final Deliverables
+You will produce:
+1. Investigation Report (NightFall Case File)
+•	Incident summary
+•	Detection
+•	Evidence
+•	Root cause
+•	Fix
+•	Lessons learned
+2. GitHub README
+•	Topology diagram
+•	Commands used
+•	Screenshots
+•	Summary
+3. LinkedIn Post
+A short, punchy announcement of the project.
 
